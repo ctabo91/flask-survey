@@ -7,7 +7,6 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
 
-responses = []
 
 
 @app.route('/')
@@ -22,6 +21,8 @@ def show_survey_start():
 def begin_survey():
     """starts the survey"""
 
+    session["responses"] = []
+
     return redirect("/questions/0")
 
 
@@ -32,7 +33,9 @@ def handle_question():
 
     choice = request.form["answer"]
 
+    responses = session["responses"]
     responses.append(choice)
+    session["responses"] = responses
 
     if (len(responses) == len(survey.questions)):
         return redirect("/complete")
@@ -44,6 +47,8 @@ def handle_question():
 @app.route('/questions/<int:qid>')
 def show_question(qid):
     """shows current question"""
+
+    responses = session.get("responses")
 
     if (responses is None):
         return redirect("/")
@@ -63,5 +68,7 @@ def show_question(qid):
 @app.route('/complete')
 def complete():
     """shows thank you page"""
+
+    print(session["responses"])
 
     return render_template("thank_you.html")
