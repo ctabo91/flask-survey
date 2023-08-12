@@ -69,6 +69,4 @@ def show_question(qid):
 def complete():
     """shows thank you page"""
 
-    print(session["responses"])
-
     return render_template("thank_you.html")
