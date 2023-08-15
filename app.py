@@ -1,9 +1,12 @@
 from flask import *
 from surveys import satisfaction_survey as survey
+from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "shhhh"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.debug = True
+debug = DebugToolbarExtension(app)
 
 
 
